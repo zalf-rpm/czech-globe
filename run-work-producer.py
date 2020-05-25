@@ -19,6 +19,7 @@
 import time
 import json
 import copy
+from copy import deepcopy
 from datetime import date, datetime, timedelta
 from collections import defaultdict
 import sys
@@ -26,46 +27,65 @@ import zmq
 import monica_io3
 import rotate_script
 
-USER = "remoteProducer-remoteMonica"
-LOCAL_RUN = False
-
 PATHS = {
-    "hampf": {
+    "localProducer-localMonica": {
         "INCLUDE_FILE_BASE_PATH": "C:/Users/hampf/Documents/GitHub/czech_globe",
-        "LOCAL_ARCHIVE_PATH_TO_PROJECT": "C:/Users/hampf/Documents/GitHub/Europ_Crop_Rot/macsur-croprotations-cz_rerunStepB/converted/", 
+        "ARCHIVE_PATH_TO_PROJECT": "C:/Users/hampf/Documents/GitHub/Europ_Crop_Rot/macsur-croprotations-cz_rerunStepB/converted/", 
+        "PATH_TO_DATA_DIR": "./",
     },
-    "local-remote": {
+    "localProducer-remoteMonica": {
         "INCLUDE_FILE_BASE_PATH": "C:/Users/hampf/Documents/GitHub/czech_globe/",
         "ARCHIVE_PATH_TO_PROJECT": "/monica_data/climate-data/EU-RotEns/", ## points to the climate data
+        "PATH_TO_DATA_DIR": "./",
     },
     "remoteProducer-remoteMonica": {
-        "INCLUDE_FILE_BASE_PATH": "/project/", # path to monica-parameters
+        "INCLUDE_FILE_BASE_PATH": "/project/czech_globe/", 
         "ARCHIVE_PATH_TO_PROJECT": "/monica_data/climate-data/EU-RotEns/", # mounted path to archive accessable by monica executable
-        "PATH_TO_DATA_DIR": "./", # mounted path to archive or hard drive with data 
+        "PATH_TO_DATA_DIR": "/project/czech_globe/", # mounted path to archive or hard drive with data 
     }
 }
 
+server = {
+    "localProducer-localMonica": "localhost",
+    "localProducer-remoteMonica": "login01.cluster.zalf.de",
+    "remoteProducer-remoteMonica": "login01.cluster.zalf.de"
+}
+
+CONFIGURATION = {
+    "mode": "localProducer-localMonica",
+    "server": None,
+    "server-port": "6666",
+    "start-row": 1, 
+    "end-row": -1,
+    "run-periods": "[0,2]"
+}
 
 def main():
     "main"
+    config = deepcopy(CONFIGURATION)
+
+    # read commandline args only if script is invoked directly from commandline
+    if len(sys.argv) > 1 and __name__ == "__main__":
+        for arg in sys.argv[1:]:
+            k, v = arg.split("=")
+            if k in config:
+                config[k] = v
+
+    if not config["server"]:
+        config["server"] = server[config["mode"]]
+
+    print("config:", config)
+    # select paths 
+    paths = PATHS[config["mode"]]
 
     context = zmq.Context()
-    socket = context.socket(zmq.PUSH)
-    config = {
-        "port": 6669
-    }
-    if len(sys.argv) > 1:
-        for arg in sys.argv[1:]:
-            k,v = arg.split("=")
-            if k in config:
-                config[k] = int(v)
+    socket = context.socket(zmq.PUSH) # pylint: disable=no-member
 
-    if LOCAL_RUN:
-        socket.connect("tcp://localhost:" + str(config["port"]))
-    else:
-        socket.connect("tcp://" + "login01.cluster.zalf.de:" + str(config["port"]))
+    # connect to monica proxy (if local, it will try to connect to a locally started monica)
+    socket.connect("tcp://" + config["server"] + ":" + str(config["server-port"]))
 
-    base_path = PATHS[USER]["PATH_TO_DATA_DIR"]
+
+    base_path = paths["PATH_TO_DATA_DIR"]
     with open(base_path + "/templates/out_stepB.json") as _:
         out_stepB = json.load(_)
 
@@ -113,7 +133,7 @@ def main():
         "SKMILH": ["universal", "milhostov"]
     }
 
-    rotations = rotate_script.generate_rotations(PATHS[USER]["PATH_TO_DATA_DIR"])
+    rotations = rotate_script.generate_rotations(base_path)
 
     climate_data = [
         "GFDL-CM3",
@@ -160,13 +180,13 @@ def main():
 
     def generate_and_send_env(station, soil_type, rot_id, climate, rcp, realization, counter):
         
-        def limit_rootdepth():
-            for cultivation_method in env["cropRotation"]:
-                for workstep in cultivation_method["worksteps"]:
-                    if workstep["type"] == "Seed":
-                        current_rootdepth = float(workstep["crop"]["cropParams"]["cultivar"]["CropSpecificMaxRootingDepth"])
-                        workstep["crop"]["cropParams"]["cultivar"]["CropSpecificMaxRootingDepth"] = min(current_rootdepth, 0.8)
-                        break
+        # def limit_rootdepth():
+        #     for cultivation_method in env["cropRotation"]:
+        #         for workstep in cultivation_method["worksteps"]:
+        #             if workstep["type"] == "Seed":
+        #                 current_rootdepth = float(workstep["crop"]["cropParams"]["cultivar"]["CropSpecificMaxRootingDepth"])
+        #                 workstep["crop"]["cropParams"]["cultivar"]["CropSpecificMaxRootingDepth"] = min(current_rootdepth, 0.8)
+        #                 break
                 
         crop = copy.deepcopy(crop_template)
         crop["cropRotation"] += rotations[rot_id]
@@ -196,11 +216,7 @@ def main():
 
         print (weather_file_name)
 
-        if LOCAL_RUN:
-            env["pathToClimateCSV"] = PATHS[USER]["LOCAL_ARCHIVE_PATH_TO_PROJECT"] + "no_snow_cover_assumed/" + weather_file_name
-        else:
-            env["pathToClimateCSV"] = PATHS[USER]["ARCHIVE_PATH_TO_PROJECT"] + "no_snow_cover_assumed/" + weather_file_name 
-        
+        env["pathToClimateCSV"] = paths["ARCHIVE_PATH_TO_PROJECT"] + "no_snow_cover_assumed/" + weather_file_name 
         env["customId"] = station + "|" + soil + "|" + rotation_id + "|" + climate + "|" + rcp + "|" + str(realization).zfill(2)
 
         socket.send_json(env)
