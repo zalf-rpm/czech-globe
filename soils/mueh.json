@@ -1,0 +1,70 @@
+{
+  "SiteParameters": {
+    "Latitude": 48.24577,
+    "Slope": 0,
+    "HeightNN": [0 , "m"],
+    "NDeposition": 0,
+		
+    "SoilProfileParameters": [
+			{
+				"Thickness": [0.3, "m"],
+				"PermanentWiltingPoint": [0.19, "m3 m-3"],
+				"FieldCapacity": [0.40, "m3 m-3"],
+				"PoreVolume": [0.53, "m3 m-3"],
+				"Clay": [14, "% [0-1]"],
+				"Sand": [41, "% [0-1]"],
+				"Sceleton": 0,
+				"SoilBulkDensity": [1390, "kg m-3"],
+				"SoilOrganicCarbon": [1.71, "%"],
+				"pH": 6.5,
+				"CN": 10.8
+			},
+			{
+				"Thickness": [0.1, "m"],
+				"PermanentWiltingPoint": [0.21, "m3 m-3"],
+				"FieldCapacity": [0.32, "m3 m-3"],
+				"PoreVolume": [0.37, "m3 m-3"],
+				"Clay": [31, "% [0-1]"],
+				"Sand": [30.5, "% [0-1]"],
+				"Sceleton": 0,
+				"SoilBulkDensity": [1730, "kg m-3"],
+				"SoilOrganicCarbon": [0.14, "%"],
+				"pH": 6.1,
+				"CN": 10.0
+			},
+			{
+				"Thickness": [1.6, "m"],
+				"PermanentWiltingPoint": [0.06, "m3 m-3"],
+				"FieldCapacity": [0.26, "m3 m-3"],
+				"PoreVolume": [0.36, "m3 m-3"],
+				"Clay": [6, "% [0-1]"],
+				"Sand": [68, "% [0-1]"],
+				"Sceleton": 0,
+				"SoilBulkDensity": [1690, "kg m-3"],
+				"SoilOrganicCarbon": [0.0, "%"],
+				"pH": 6.1,
+				"CN": 10.0
+			}
+		]
+  },
+	
+  "SoilTemperatureParameters": ["include-from-file", "monica-parameters/general/soil-temperature.json"],
+ 
+  "EnvironmentParameters": {
+	  "DEFAULT": ["include-from-file", "monica-parameters/general/environment.json"],
+	  "LeachingDepth": 1.5
+	},
+  
+  "SoilOrganicParameters": {
+	  "DEFAULT": ["include-from-file", "monica-parameters/general/soil-organic.json"],
+	  "PartSOM_Fast_to_SOM_Slow": 0.2785,
+	  "SOM_FastDecCoeffStandard": 0.000172,
+	  "PartSMB_Fast_to_SOM_Fast": 0.383,
+	  "PartSMB_Slow_to_SOM_Fast": 0.763,
+	  "SOM_SlowDecCoeffStandard": 0.00003336,
+	  "AOM_SlowUtilizationEfficiency": 0.347
+  },
+  
+  "SoilTransportParameters": ["include-from-file", "monica-parameters/general/soil-transport.json"],
+  "SoilMoistureParameters": ["include-from-file", "monica-parameters/general/soil-moisture.json"]
+}

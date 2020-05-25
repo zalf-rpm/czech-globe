@@ -1,0 +1,95 @@
+{
+  "SiteParameters": {
+    "Latitude": 52.50691,
+    "Slope": 0,
+    "HeightNN": [0 , "m"],
+    "NDeposition": 0,
+		
+    "SoilProfileParameters": [
+			{
+				"Thickness": [0.3, "m"],
+				"PermanentWiltingPoint": [0.07, "m3 m-3"],
+				"FieldCapacity": [0.26, "m3 m-3"],
+				"PoreVolume": [0.488, "m3 m-3"],
+				"Clay": [4.5, "% [0-1]"],
+				"Sand": [79, "% [0-1]"],
+				"Sceleton": 0,
+				"SoilBulkDensity": [1680, "kg m-3"],
+				"SoilOrganicCarbon": [0.68, "%"],
+				"pH": 6.1,
+				"CN": 11.1
+			},
+			{
+				"Thickness": [0.15, "m"],
+				"PermanentWiltingPoint": [0.06, "m3 m-3"],
+				"FieldCapacity": [0.23, "m3 m-3"],
+				"PoreVolume": [0.474, "m3 m-3"],
+				"Clay": [3.8, "% [0-1]"],
+				"Sand": [77.7, "% [0-1]"],
+				"Sceleton": 0,
+				"SoilBulkDensity": [1730, "kg m-3"],
+				"SoilOrganicCarbon": [0.13, "%"],
+				"pH": 5.7,
+				"CN": 11
+			},
+			{
+				"Thickness": [0.15, "m"],
+				"PermanentWiltingPoint": [0.04, "m3 m-3"],
+				"FieldCapacity": [0.21, "m3 m-3"],
+				"PoreVolume": [0.442, "m3 m-3"],
+				"Clay": [3.5, "% [0-1]"],
+				"Sand": [82.5, "% [0-1]"],
+				"Sceleton": 0,
+				"SoilBulkDensity": [1690, "kg m-3"],
+				"SoilOrganicCarbon": [0.1, "%"],
+				"pH": 6.1,
+				"CN": 11
+			},
+			{
+				"Thickness": [0.4, "m"],
+				"PermanentWiltingPoint": [0.15, "m3 m-3"],
+				"FieldCapacity": [0.28, "m3 m-3"],
+				"PoreVolume": [0.412, "m3 m-3"],
+				"Clay": [18, "% [0-1]"],
+				"Sand": [61.5, "% [0-1]"],
+				"Sceleton": 0,
+				"SoilBulkDensity": [1770, "kg m-3"],
+				"SoilOrganicCarbon": [0.19, "%"],
+				"pH": 6.4,
+				"CN": 11
+			},
+			{
+				"Thickness": [1.0, "m"],
+				"PermanentWiltingPoint": [0.11, "m3 m-3"],
+				"FieldCapacity": [0.26, "m3 m-3"],
+				"PoreVolume": [0.412, "m3 m-3"],
+				"Clay": [14.5, "% [0-1]"],
+				"Sand": [61.5, "% [0-1]"],
+				"Sceleton": 0,
+				"SoilBulkDensity": [1850, "kg m-3"],
+				"SoilOrganicCarbon": [0.0, "%"],
+				"pH": 7.8,
+				"CN": 1
+			}
+		]
+  },
+  "SoilTemperatureParameters": ["include-from-file", "monica-parameters/general/soil-temperature.json"],
+ 
+  "EnvironmentParameters": {
+	  "DEFAULT": ["include-from-file", "monica-parameters/general/environment.json"],
+	  "LeachingDepth": 1.5
+	},
+  
+  "SoilOrganicParameters": {
+	  "DEFAULT": ["include-from-file", "monica-parameters/general/soil-organic.json"],
+	  "PartSOM_Fast_to_SOM_Slow": 0.2785,
+	  "SOM_FastDecCoeffStandard": 0.000172,
+	  "PartSMB_Fast_to_SOM_Fast": 0.383,
+	  "PartSMB_Slow_to_SOM_Fast": 0.763,
+	  "SOM_SlowDecCoeffStandard": 0.00003336,
+	  "AOM_SlowUtilizationEfficiency": 0.347
+  },
+  
+  "SoilTransportParameters": ["include-from-file", "monica-parameters/general/soil-transport.json"],
+  "SoilMoistureParameters": ["include-from-file", "monica-parameters/general/soil-moisture.json"]
+}

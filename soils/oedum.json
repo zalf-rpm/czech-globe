@@ -1,0 +1,83 @@
+{
+  "SiteParameters": {
+    "Latitude": 56.31192,
+    "Slope": 0,
+    "HeightNN": [0 , "m"],
+    "NDeposition": 0,
+		
+    "SoilProfileParameters": [
+			{
+				"Thickness": [0.3, "m"],
+				"PermanentWiltingPoint": [0.085, "m3 m-3"],
+				"FieldCapacity": [0.313, "m3 m-3"],
+				"PoreVolume": [0.452, "m3 m-3"],
+				"Clay": [9.1, "% [0-1]"],
+				"Sand": [62.7, "% [0-1]"],
+				"Sceleton": 0,
+				"SoilBulkDensity": [1420, "kg m-3"],
+				"SoilOrganicCarbon": [2.29, "%"],
+				"pH": 6.1,
+				"CN": 13.1
+			},
+			{
+				"Thickness": [0.3, "m"],
+				"PermanentWiltingPoint": [0.065, "m3 m-3"],
+				"FieldCapacity": [0.256, "m3 m-3"],
+				"PoreVolume": [0.434, "m3 m-3"],
+				"Clay": [11.4, "% [0-1]"],
+				"Sand": [60.2, "% [0-1]"],
+				"Sceleton": 0,
+				"SoilBulkDensity": [1480, "kg m-3"],
+				"SoilOrganicCarbon": [1.25, "%"],
+				"pH": 5.9,
+				"CN": 13.3
+			},
+			{
+				"Thickness": [0.3, "m"],
+				"PermanentWiltingPoint": [0.071, "m3 m-3"],
+				"FieldCapacity": [0.231, "m3 m-3"],
+				"PoreVolume": [0.344, "m3 m-3"],
+				"Clay": [13.6, "% [0-1]"],
+				"Sand": [59.2, "% [0-1]"],
+				"Sceleton": 0,
+				"SoilBulkDensity": [1730, "kg m-3"],
+				"SoilOrganicCarbon": [0.38, "%"],
+				"pH": 5.6,
+				"CN": 10.6
+			},
+			{
+				"Thickness": [0.60, "m"],
+				"PermanentWiltingPoint": [0.060, "m3 m-3"],
+				"FieldCapacity": [0.22, "m3 m-3"],
+				"PoreVolume": [0.344, "m3 m-3"],
+				"Clay": [14.5, "% [0-1]"],
+				"Sand": [59.4, "% [0-1]"],
+				"Sceleton": 0,
+				"SoilBulkDensity": [1780, "kg m-3"],
+				"SoilOrganicCarbon": [0.11, "%"],
+				"pH": 5.3,
+				"CN": 8.5
+			}
+		]
+  },
+	
+  "SoilTemperatureParameters": ["include-from-file", "monica-parameters/general/soil-temperature.json"],
+ 
+  "EnvironmentParameters": {
+	  "DEFAULT": ["include-from-file", "monica-parameters/general/environment.json"],
+	  "LeachingDepth": 1.5
+	},
+  
+  "SoilOrganicParameters": {
+	  "DEFAULT": ["include-from-file", "monica-parameters/general/soil-organic.json"],
+	  "PartSOM_Fast_to_SOM_Slow": 0.2785,
+	  "SOM_FastDecCoeffStandard": 0.000172,
+	  "PartSMB_Fast_to_SOM_Fast": 0.383,
+	  "PartSMB_Slow_to_SOM_Fast": 0.763,
+	  "SOM_SlowDecCoeffStandard": 0.00003336,
+	  "AOM_SlowUtilizationEfficiency": 0.347
+  },
+  
+  "SoilTransportParameters": ["include-from-file", "monica-parameters/general/soil-transport.json"],
+  "SoilMoistureParameters": ["include-from-file", "monica-parameters/general/soil-moisture.json"]
+}

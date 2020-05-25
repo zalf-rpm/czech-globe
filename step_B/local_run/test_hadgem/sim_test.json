@@ -1,0 +1,539 @@
+{
+	"UseAutomaticIrrigation": false,
+	"NMinUserParams": {
+		"max": 120,
+		"delayInDays": 10,
+		"min": 40
+	},
+	"JulianDayAutomaticFertilising": 89,
+	"climate.csv": "LED-HadGEM2-ES-RCP85_01.csv",
+	"site.json": "site_test.json",
+	"climate.csv-options": {
+		"header-to-acd-names": {},
+		"csv-separator": ",",
+		"end-date": "2080-12-31",
+		"no-of-climate-file-header-lines": 1,
+		"start-date": "1961-01-01"
+	},
+	"NMinFertiliserPartition": [
+		"include-from-file",
+		"monica-parameters/mineral-fertilisers/AN.json"
+	],
+	"UseNMinMineralFertilisingMethod": false,
+	"AutoIrrigationParams": {
+		"irrigationParameters": {
+			"sulfateConcentration": [
+				0,
+				"mg dm-3"
+			],
+			"nitrateConcentration": [
+				0,
+				"mg dm-3"
+			]
+		},
+		"threshold": 0.9,
+		"amount": [
+			0,
+			"mm"
+		]
+	},
+	"EmergenceMoistureControlOn": false,
+	"debug?": false,
+	"crop.json": "crop_test.json",
+	"WaterDeficitResponseOn": true,
+	"EmergenceFloodingControlOn": false,
+	"UseSecondaryYields": true,
+	"LayerThickness": [
+		0.1,
+		"m"
+	],
+	"path-to-output": "./",
+	"output": {
+		"csv-options": {
+			"include-header-row": true,
+			"include-units-row": true,
+			"csv-separator": ","
+		},
+		"write-file?": true,
+		"events": [
+			"daily", [
+				"Date", "Crop", "RelDev", "Stage", "AbBiom", "Yield","LAI", "TraDef", "NDef",
+				"NFert", "PotNup", "ActNup", "NetNmin"
+			],
+			
+			"crop",
+			[
+				[
+					"Crop",
+					"FIRST"
+				],
+				[
+					"Year",
+					"LAST"
+				],
+				[
+					"Date|sowing",
+					"FIRST"
+				],
+				[
+					"Date|harv",
+					"LAST"
+				],
+				[
+					"Year",
+					"LAST"
+				],
+				[
+					"Yield|yield",
+					"LAST"
+				],
+				[
+					"AbBiom|biomass",
+					"LAST"
+				],
+				[
+					"OrgBiom|roots",
+					"Root",
+					"LAST"
+				],
+				[
+					"LAI|LAImax",
+					"MAX"
+				],
+				[
+					"Irrig|irrig",
+					"SUM"
+				],
+				[
+					"SumNUp|N-uptake",
+					"LAST"
+				],
+				[
+					"AbBiomN|Nagb",
+					"LAST"
+				],
+				[
+					"Pot_ET|ETcG",
+					"SUM"
+				],
+				[
+					"Act_ET|ETaG",
+					"SUM"
+				],
+				[
+					"Tra|TraG",
+					"SUM"
+				],
+				[
+					"PercolationRate|PerG",
+					15,
+					"SUM"
+				],
+				[
+					"Mois|SWCS1",
+					[
+						1,
+						3,
+						"AVG"
+					],
+					"FIRST"
+				],
+				[
+					"Pwp|Pwp1",
+					[
+						1,
+						3,
+						"AVG"
+					],
+					"FIRST"
+				],
+				[
+					"Mois|SWCS2",
+					[
+						1,
+						15,
+						"AVG"
+					],
+					"FIRST"
+				],
+				[
+					"Pwp|Pwp2",
+					[
+						1,
+						15,
+						"AVG"
+					],
+					"FIRST"
+				],
+				[
+					"OrgN|OrgN1_kgm3",
+					[
+						1,
+						3,
+						"AVG"
+					],
+					"LAST"
+				],
+				[
+					"OrgN|OrgN2_kgm3",
+					[
+						1,
+						15,
+						"AVG"
+					],
+					"LAST"
+				],
+				[
+					"NO3|NO31_kgm3",
+					[
+						1,
+						3,
+						"AVG"
+					],
+					"LAST"
+				],
+				[
+					"NO3|NO32_kgm3",
+					[
+						1,
+						15,
+						"AVG"
+					],
+					"LAST"
+				],
+				[
+					"NH4|NH41_kgm3",
+					[
+						1,
+						3,
+						"AVG"
+					],
+					"LAST"
+				],
+				[
+					"NH4|NH42_kgm3",
+					[
+						1,
+						15,
+						"AVG"
+					],
+					"LAST"
+				],
+				[
+					"NLeach|NleaG",
+					"SUM"
+				],
+				[
+					"TraDef|TRRel",
+					"AVG"
+				],
+				[
+					"NDef|Reduk",
+					"AVG"
+				],
+				[
+					"Nresid",
+					"LAST"
+				],
+				[
+					"NFert|Nfertil",
+					"SUM"
+				]
+			],
+			{
+				"at": "anthesis"
+			},
+			[
+				[
+					"Year"
+				],
+				[
+					"Crop"
+				],
+				[
+					"DOY|anthesis"
+				],
+				[
+					"Mois|SWCA1",
+					[
+						1,
+						3,
+						"AVG"
+					]
+				],
+				[
+					"Mois|SWCA2",
+					[
+						1,
+						15,
+						"AVG"
+					]
+				]
+			],
+			{
+				"at": "maturity"
+			},
+			[
+				[
+					"Year"
+				],
+				[
+					"Crop"
+				],
+				[
+					"DOY|matur"
+				],
+				[
+					"Mois|SWCM1",
+					[
+						1,
+						3,
+						"AVG"
+					]
+				],
+				[
+					"Mois|SWCM2",
+					[
+						1,
+						15,
+						"AVG"
+					]
+				]
+			],
+			{
+				"to": "Harvest",
+				"while": [
+					"ETa/ETc",
+					"<",
+					0.4
+				],
+				"from": "Sowing"
+			},
+			[
+				[
+					"Year",
+					"LAST"
+				],
+				[
+					"Crop",
+					"FIRST"
+				],
+				[
+					"Count|DryDcycle",
+					"SUM"
+				]
+			],
+			{
+				"to": "Harvest",
+				"while": [
+					"ETa/ETc",
+					"<",
+					0.4
+				],
+				"from": "anthesis"
+			},
+			[
+				[
+					"Year",
+					"LAST"
+				],
+				[
+					"Crop",
+					"FIRST"
+				],
+				[
+					"Count|DryD2",
+					"SUM"
+				]
+			],
+			{
+				"to": "xxxx-12-31",
+				"from": "xxxx-10-01"
+			},
+			[
+				[
+					"Year",
+					"LAST"
+				],
+				[
+					"Pot_ET|ETcY1",
+					"SUM"
+				],
+				[
+					"Act_ET|ETaY1",
+					"SUM"
+				],
+				[
+					"Tra|TraY1",
+					"SUM"
+				],
+				[
+					"PercolationRate|PerY1",
+					15,
+					"SUM"
+				],
+				[
+					"Mois|SWC1Y1",
+					[
+						1,
+						3,
+						"AVG"
+					],
+					"SUM"
+				],
+				[
+					"Mois|SWC2Y1",
+					[
+						1,
+						15,
+						"AVG"
+					],
+					"SUM"
+				],
+				[
+					"Pwp|Pwp1",
+					[
+						1,
+						3,
+						"AVG"
+					],
+					"FIRST"
+				],
+				[
+					"Pwp|Pwp2",
+					[
+						1,
+						15,
+						"AVG"
+					],
+					"FIRST"
+				],
+				[
+					"RunOff|RunoffY1",
+					"SUM"
+				],
+				[
+					"NLeach|NleaY1",
+					"SUM"
+				],
+				[
+					"NetNmin|NminY1",
+					"SUM"
+				],
+				[
+					"Denit|DenitY1",
+					"SUM"
+				],
+				[
+					"NH3|VolatY1",
+					"SUM"
+				]
+			],
+			{
+				"to": "xxxx-09-30",
+				"from": "xxxx-01-01"
+			},
+			[
+				[
+					"Year",
+					"LAST"
+				],
+				[
+					"Pot_ET|ETcY2",
+					"SUM"
+				],
+				[
+					"Act_ET|ETaY2",
+					"SUM"
+				],
+				[
+					"Tra|TraY2",
+					"SUM"
+				],
+				[
+					"PercolationRate|PerY2",
+					15,
+					"SUM"
+				],
+				[
+					"Mois|SWC1Y2",
+					[
+						1,
+						3,
+						"AVG"
+					],
+					"SUM"
+				],
+				[
+					"Mois|SWC2Y2",
+					[
+						1,
+						15,
+						"AVG"
+					],
+					"SUM"
+				],
+				[
+					"Pwp|Pwp1",
+					[
+						1,
+						3,
+						"AVG"
+					],
+					"FIRST"
+				],
+				[
+					"Pwp|Pwp2",
+					[
+						1,
+						15,
+						"AVG"
+					],
+					"FIRST"
+				],
+				[
+					"RunOff|RunoffY2",
+					"SUM"
+				],
+				[
+					"NLeach|NleaY2",
+					"SUM"
+				],
+				[
+					"NetNmin|NminY2",
+					"SUM"
+				],
+				[
+					"Denit|DenitY2",
+					"SUM"
+				],
+				[
+					"NH3|VolatY2",
+					"SUM"
+				],
+				[
+					"SOC-X-Y|SOC1_gm2",
+					[
+						1,
+						3,
+						"SUM"
+					],
+					"LAST"
+				],
+				[
+					"SOC-X-Y|SOC2_gm2",
+					[
+						1,
+						15,
+						"SUM"
+					],
+					"LAST"
+				]
+			]
+		],
+		"file-name": "out_test_local.csv"
+	},
+	"NitrogenResponseOn": true,
+	"include-file-base-path": "../",
+	"NumberOfLayers": 20
+}
