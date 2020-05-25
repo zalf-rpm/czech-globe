@@ -41,7 +41,7 @@ PATHS = {
     "remoteProducer-remoteMonica": {
         "INCLUDE_FILE_BASE_PATH": "/project/czech_globe/", 
         "ARCHIVE_PATH_TO_PROJECT": "/monica_data/climate-data/EU-RotEns/", # mounted path to archive accessable by monica executable
-        "PATH_TO_DATA_DIR": "/project/czech_globe/", # mounted path to archive or hard drive with data 
+        "PATH_TO_DATA_DIR": "/project/czech_globe", # mounted path to archive or hard drive with data 
     }
 }
 
