@@ -26,31 +26,17 @@ import dateutil.parser
 from collections import defaultdict, OrderedDict
 import re
 import calendar
+
 import zmq
+
 import monica_io3
 
-server = {
-    "localConsumer-localMonica": "localhost",
-    "localConsumer-remoteMonica": "login01.cluster.zalf.de",
-    "remoteConsumer-remoteMonica": "login01.cluster.zalf.de"
-}
-
-CONFIGURATION = {
-        "mode": "localConsumer-localMonica",
-        "server": None,
-        "port": "7777",
-        "timeout": 600000 # 10 minutes
-    }
+USER = "hampf"
+LOCAL_RUN = False
 
 PATHS = {
-    "localConsumer-localMonica": {
-        "OUTPUT_PATH": "C:/Users/hampf/Documents/GitHub/czech_globe/",
-    },
-    "localConsumer-remoteMonica": {
-        "OUTPUT_PATH": "C:/Users/hampf/Documents/GitHub/czech_globe/",
-    },
-    "remoteConsumer-remoteMonica": {
-        "OUTPUT_PATH": "/out/",
+    "hampf": {
+        "LOCAL_ARCHIVE_PATH_TO_PROJECT": "C:/Users/hampf/Documents/GitHub/Europ_Crop_Rot/macsur-croprotations-cz_rerunStepB/step_B/",
     }
 }
 
@@ -284,13 +270,12 @@ HEADER_YEAR = \
     "\n"
 
 
-def write_data(custom_id, crp_res, yr_res, mode):
+def write_data(custom_id, crp_res, yr_res):
     "write data"
     
     id_info = custom_id.split("|")
 
-    #directory = PATHS[USER]["OUTPUT_PATH"] + "output/" + id_info[1]
-    directory = PATHS[mode]["OUTPUT_PATH"] 
+    directory = PATHS[USER]["LOCAL_ARCHIVE_PATH_TO_PROJECT"] + "output/" + id_info[1]
 
     path_to_file_crop = directory + "/" + "C" + id_info[0] + "-" + id_info[3] + "_" + id_info[4] + "_" + id_info[5] + "_" + id_info[2] + ".csv"
     path_to_file_year = directory + "/" + "Y" + id_info[0] + "-" + id_info[3] + "_" + id_info[4] + "_" + id_info[5] + "_" + id_info[2]+  ".csv"
@@ -307,42 +292,34 @@ def write_data(custom_id, crp_res, yr_res, mode):
         for row_ in yr_res:
             writer.writerow(row_)
 
-def main():
-    "collect data from workers"
-    config = CONFIGURATION
-
-    if len(sys.argv) > 1 and __name__ == "__main__":
-        for arg in sys.argv[1:]:
-            k,v = arg.split("=")
-            if k in config:
-                if k == "timeout" :
-                    config[k] = int(v)
-                else :
-                    config[k] = v
-    if not config["server"]:
-        config["server"] = server[config["mode"]]
-
-    print("consumer config:", config)
     
-    context = zmq.Context()
-    socket = context.socket(zmq.PULL) # pylint: disable=no-member
-    socket.connect("tcp://" + config["server"] + ":" + config["port"])
-    socket.RCVTIMEO = config["timeout"]
-    leave = False
+
+def collector():
+    "collect data from workers"
+
+    data = defaultdict(list)
+
     i = 1
+    context = zmq.Context()
+    socket = context.socket(zmq.PULL)
+    if LOCAL_RUN:
+        socket.connect("tcp://localhost:7777")
+    else:
+        socket.connect("tcp://login01.cluster.zalf.de:7780")
+    socket.RCVTIMEO = 1000
+    leave = False
+    
     while not leave:
+
         try:
             result = socket.recv_json(encoding="latin-1")
-        # handle timeout
-        except zmq.error.Again as _e:
-            print('no response from the server (with "timeout"=%d ms) ' % socket.RCVTIMEO)
-            return
-        except:
+        except:            
             continue
 
         if result["type"] == "finish":
             print ("received finish message")
             leave = True
+
         else:
             print(("received work result ", i, " customId: ", result.get("customId", "")))
 
@@ -350,8 +327,8 @@ def main():
 
             crp_res, yr_res = create_output(custom_id, result)
             
-            write_data(custom_id, crp_res, yr_res, config["mode"])
+            write_data(custom_id, crp_res, yr_res)
 
             i = i + 1
 
-main()
+collector()

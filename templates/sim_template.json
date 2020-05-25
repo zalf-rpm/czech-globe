@@ -15,7 +15,7 @@
 	
 	"debug?": true,
 	"path-to-output": "./",
-	"include-file-base-path": "/project/",
+	"include-file-base-path": "C:/Users/hampf/MONICA/",
 	
 	"output": { 
 	  "write-file?": true,
